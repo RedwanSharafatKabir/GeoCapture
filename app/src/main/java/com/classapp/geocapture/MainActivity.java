@@ -74,29 +74,33 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getCurrentLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+        if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-            return;
+        } else {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
         }
 
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+        fusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "Location permission denied !", Toast.LENGTH_LONG).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
-                if (location != null) {
-                    latitude = String.valueOf(location.getLatitude());
-                    longitude = String.valueOf(location.getLongitude());
+                latitude = String.valueOf(location.getLatitude());
+                longitude = String.valueOf(location.getLongitude());
 
-                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                    List<Address> addressList;
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                List<Address> addressList;
 
-                    try {
-                        addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        currentPlace = addressList.get(0).getLocality();
-                    } catch (IOException e) {
-                        Log.i("ERROR ", "Permission Denied");
-                    }
+                try {
+                    addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                    currentPlace = addressList.get(0).getLocality();
+                } catch (IOException e) {
+                    Log.i("ERROR ", "Permission Denied");
                 }
 
                 locationOutput.setText("Date:" + currentDate);
@@ -104,11 +108,6 @@ public class MainActivity extends AppCompatActivity {
                 locationOutput.append("\nPlace:" + currentPlace);
                 locationOutput.append("\nLatitude:" + latitude + getResources().getString(R.string.degreeSymbol));
                 locationOutput.append("\nLongitude:" + longitude + getResources().getString(R.string.degreeSymbol));
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Location permission denied !", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -202,5 +201,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 //*/
-
 }
