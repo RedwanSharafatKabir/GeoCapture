@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -26,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -44,6 +47,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
+    private ProgressBar progressBar;
     private LinearLayout imageLayout;
     private Button captureBtn;
     private ImageView capturedImage, finalImage;
@@ -64,6 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         locationOutput = findViewById(R.id.locationOutputId);
         finalImage = findViewById(R.id.finalImageId);
         finalImage.setVisibility(View.GONE);
+
+        progressBar = findViewById(R.id.progressBarId);
+        progressBar.setVisibility(View.VISIBLE);
 
         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
@@ -88,41 +95,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (ActivityCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-        } else {
+
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
                     Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
-        }
 
-        fusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "Location permission denied !", Toast.LENGTH_LONG).show();
-            }
-        }).addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                if(location!=null) {
-                    latitude = String.valueOf(location.getLatitude());
-                    longitude = String.valueOf(location.getLongitude());
+        } else {
+            fusedLocationProviderClient.getLastLocation().addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    Toast.makeText(MainActivity.this, "Location permission denied !", Toast.LENGTH_LONG).show();
+                }
+            }).addOnSuccessListener(new OnSuccessListener<Location>() {
+                @Override
+                public void onSuccess(Location location) {
+                    if(location!=null) {
+                        latitude = String.valueOf(location.getLatitude());
+                        longitude = String.valueOf(location.getLongitude());
 
-                    Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                    List<Address> addressList;
+                        Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                        List<Address> addressList;
 
-                    try {
-                        addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
-                        currentPlace = addressList.get(0).getLocality();
-                    } catch (IOException e) {
-                        Log.i("ERROR ", "Permission Denied");
+                        try {
+                            addressList = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                            currentPlace = addressList.get(0).getLocality();
+                        } catch (IOException e) {
+                            Log.i("ERROR ", "Permission Denied");
+                        }
+
+                        locationOutput.setText("Date:" + currentDate);
+                        locationOutput.append("\nTime:" + currentTime);
+                        locationOutput.append("\nPlace:" + currentPlace);
+                        locationOutput.append("\nLatitude:" + latitude + getResources().getString(R.string.degreeSymbol));
+                        locationOutput.append("\nLongitude:" + longitude + getResources().getString(R.string.degreeSymbol));
+
+                        progressBar.setVisibility(View.GONE);
                     }
                 }
-
-                locationOutput.setText("Date:" + currentDate);
-                locationOutput.append("\nTime:" + currentTime);
-                locationOutput.append("\nPlace:" + currentPlace);
-                locationOutput.append("\nLatitude:" + latitude + getResources().getString(R.string.degreeSymbol));
-                locationOutput.append("\nLongitude:" + longitude + getResources().getString(R.string.degreeSymbol));
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -226,6 +236,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         view.draw(canvas);
 
         return returnedBitmap;
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder alertDialogBuilder;
+        alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("EXIT !");
+        alertDialogBuilder.setMessage("Are you sure you want to close this app ?");
+        alertDialogBuilder.setIcon(R.drawable.exit);
+        alertDialogBuilder.setCancelable(false);
+
+        alertDialogBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+                System.exit(0);
+            }
+        });
+
+        alertDialogBuilder.setNeutralButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     // Another method to get current location

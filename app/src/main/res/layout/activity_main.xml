@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:gravity="center"
-    android:background="#F3F3F3"
+    android:background="#DDDDDD"
     android:orientation="vertical"
     android:weightSum="11"
     android:padding="10dp">
@@ -18,7 +18,9 @@
         android:layout_weight="10"
         android:src="@drawable/city_street"
         android:scaleType="fitXY"
-        android:layout_margin="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
         android:padding="10dp"/>
 
     <LinearLayout
@@ -28,7 +30,9 @@
         android:orientation="vertical"
         android:layout_weight="10"
         android:layout_gravity="center"
-        android:layout_margin="10dp">
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -56,18 +60,37 @@
             app:cardUseCompatPadding="true"
             android:layout_marginTop="-25dp">
 
-            <TextView
-                android:id="@+id/locationOutputId"
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:textStyle="bold"
-                android:textSize="18sp"
-                android:fontFamily="serif-monospace"
-                android:textColor="#000"
-                android:padding="10dp"
-                android:layout_gravity="center"
-                android:gravity="center|left"
-                android:background="#168504CC"/>
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/locationOutputId"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:textStyle="bold"
+                    android:textSize="18sp"
+                    android:fontFamily="serif-monospace"
+                    android:textColor="#000"
+                    android:padding="10dp"
+                    android:layout_gravity="center"
+                    android:gravity="center|left"
+                    android:background="#168504CC"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center">
+
+                    <ProgressBar
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:id="@+id/progressBarId"
+                        android:layout_gravity="center"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
         </androidx.cardview.widget.CardView>
 
