@@ -6,23 +6,104 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity"
     android:gravity="center"
-    android:background="#F3F3F3">
+    android:background="#F3F3F3"
+    android:orientation="vertical"
+    android:weightSum="11"
+    android:padding="10dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true">
+    <ImageView
+        android:id="@+id/finalImageId"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="10"
+        android:src="@drawable/city_street"
+        android:scaleType="fitXY"
+        android:layout_margin="10dp"
+        android:padding="10dp"/>
+
+    <LinearLayout
+        android:id="@+id/imageLinearLauoutId"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        android:layout_weight="10"
+        android:layout_gravity="center"
+        android:layout_margin="10dp">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="7"
+            app:cardElevation="8dp"
+            app:cardUseCompatPadding="true"
+            android:layout_gravity="center">
+
+            <ImageView
+                android:id="@+id/capturedImageId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:src="@drawable/city_street"
+                android:scaleType="fitXY"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            app:cardElevation="8dp"
+            app:cardUseCompatPadding="true"
+            android:layout_marginTop="-25dp">
+
+            <TextView
+                android:id="@+id/locationOutputId"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="serif-monospace"
+                android:textColor="#000"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:background="#168504CC"/>
+
+        </androidx.cardview.widget.CardView>
 
         <TextView
-            android:id="@+id/locationOutputId"
+            android:id="@+id/copyrightLayoutId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:textSize="18sp"
-            android:fontFamily="serif-monospace"
+            android:text="@string/copyrightSymbol"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
             android:textColor="#000"
-            android:padding="10dp"/>
+            android:textAllCaps="false"
+            android:fontFamily="sans-serif"/>
+
+    </LinearLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_weight="1"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:cardElevation="5dp"
+        app:cardUseCompatPadding="true"
+        android:layout_gravity="center"
+        app:cardCornerRadius="5dp">
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/captureAnotherId"
+            android:text="Capture"
+            android:layout_gravity="center"
+            android:background="#9631EF"
+            android:textColor="#fff"
+            android:textAllCaps="false"
+            android:textSize="16sp"/>
 
     </androidx.cardview.widget.CardView>
 
