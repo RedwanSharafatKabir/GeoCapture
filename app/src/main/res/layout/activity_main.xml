@@ -15,119 +15,86 @@
         android:id="@+id/finalImageId"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="10"
-        android:src="@drawable/city_street"
+        android:layout_weight="9"
+        android:src="@drawable/background"
         android:scaleType="fitXY"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
-        android:padding="10dp"/>
+        android:layout_margin="10dp"/>
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/imageLinearLauoutId"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="vertical"
-        android:layout_weight="10"
+        android:layout_weight="9"
         android:layout_gravity="center"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_margin="10dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="7"
-            app:cardElevation="8dp"
-            app:cardUseCompatPadding="true"
-            android:layout_gravity="center">
-
-            <ImageView
-                android:id="@+id/capturedImageId"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="6"
-                android:src="@drawable/city_street"
-                android:scaleType="fitXY"/>
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_weight="3"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            app:cardElevation="8dp"
-            app:cardUseCompatPadding="true"
-            android:layout_marginTop="-25dp">
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:id="@+id/locationOutputId"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textStyle="bold"
-                    android:textSize="18sp"
-                    android:fontFamily="serif-monospace"
-                    android:textColor="#000"
-                    android:padding="10dp"
-                    android:layout_gravity="center"
-                    android:gravity="center|left"
-                    android:background="#168504CC"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center">
-
-                    <ProgressBar
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
-                        android:id="@+id/progressBarId"
-                        android:layout_gravity="center"/>
-
-                </LinearLayout>
-
-            </RelativeLayout>
-
-        </androidx.cardview.widget.CardView>
-
-        <TextView
-            android:id="@+id/copyrightLayoutId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/copyrightSymbol"
-            android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
-            android:textColor="#000"
-            android:textAllCaps="false"
-            android:fontFamily="sans-serif"/>
-
-    </LinearLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_weight="1"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:cardElevation="5dp"
-        app:cardUseCompatPadding="true"
-        android:layout_gravity="center"
-        app:cardCornerRadius="5dp">
-
-        <Button
+        <ImageView
+            android:id="@+id/capturedImageId"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/captureAnotherId"
-            android:text="Capture"
-            android:layout_gravity="center"
-            android:background="#9631EF"
-            android:textColor="#fff"
-            android:textAllCaps="false"
-            android:textSize="16sp"/>
+            android:src="@drawable/background"
+            android:scaleType="fitXY"/>
 
-    </androidx.cardview.widget.CardView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10dp">
+
+            <TextView
+                android:id="@+id/locationOutputId"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:fontFamily="serif-monospace"
+                android:textColor="#fff"
+                android:padding="10dp"
+                android:layout_gravity="center"
+                android:gravity="center|left"
+                android:background="@android:color/transparent"/>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="10dp">
+
+            <ProgressBar
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/progressBarId"
+                android:layout_gravity="center"/>
+
+        </LinearLayout>
+
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/copyrightLayoutId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/copyrightSymbol"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:textColor="#000"
+        android:textAllCaps="false"
+        android:fontFamily="sans-serif"/>
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:id="@+id/captureAnotherId"
+        android:layout_gravity="center"
+        android:src="@drawable/camera"/>
 
 </LinearLayout>
