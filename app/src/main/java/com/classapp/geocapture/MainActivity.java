@@ -26,6 +26,8 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -86,15 +88,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(MainActivity.this);
 
-        Date cal = Calendar.getInstance().getTime();
-        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MMM-yyyy");
-        currentDate = simpleDateFormat1.format(cal);
-
-        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("hh:mm:ss aaa");
-        currentTime = simpleDateFormat2.format(new Date());
-
 //        getlocation();
         requestLocation();
+    }
+
+    private void refresh(int milliSecond){
+        final Handler handler = new Handler(Looper.getMainLooper());
+
+        final Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                requestLocation();
+            }
+        };
+
+        handler.postDelayed(runnable, milliSecond);
     }
 
     private void requestLocation() {
@@ -106,13 +114,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Manifest.permission.ACCESS_COARSE_LOCATION}, PackageManager.PERMISSION_GRANTED);
 
             getCurrentLocation();
+            refresh(1000);
 
         } else {
             getCurrentLocation();
+            refresh(1000);
         }
     }
 
     private void getCurrentLocation() {
+        Date cal = Calendar.getInstance().getTime();
+        SimpleDateFormat simpleDateFormat1 = new SimpleDateFormat("dd-MMM-yyyy");
+        currentDate = simpleDateFormat1.format(cal);
+
+        SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("hh:mm:ss aaa");
+        currentTime = simpleDateFormat2.format(new Date());
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
